@@ -96,7 +96,6 @@ impl CharacterBehavior for Data {
                 if !self.exhausted {
                     // Attack
                     let precision_mult = combat::compute_precision_mult(data.inventory, data.msm);
-                    let tool_stats = get_tool_stats(data, self.static_data.ability_info);
                     let scaling = self.max_vertical_speed / self.static_data.vertical_speed;
                     let scaling = scaling.min(self.static_data.max_scaling);
 
@@ -106,11 +105,7 @@ impl CharacterBehavior for Data {
                             .melee_constructor
                             .clone()
                             .handle_scaling(scaling)
-                            .create_melee(
-                                precision_mult,
-                                tool_stats,
-                                self.static_data.ability_info,
-                            ),
+                            .create_melee(precision_mult, self.static_data.ability_info),
                     );
 
                     if let CharacterState::DiveMelee(c) = &mut update.character {

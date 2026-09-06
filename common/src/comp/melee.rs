@@ -1,13 +1,9 @@
 use crate::{
     combat::{
-        Attack, AttackDamage, AttackEffect, CombatBuff, CombatBuffStrength, CombatEffect,
-        CombatRequirement, Damage, DamageKind, FlankMults, GroupTarget, Knockback, KnockbackDir,
+        Attack, AttackDamage, AttackEffect, CombatEffect, CombatRequirement, Damage, DamageKind,
+        FlankMults, GroupTarget, Knockback, KnockbackDir,
     },
-    comp::{
-        buff::BuffKind,
-        tool::{Stats, ToolKind},
-    },
-    resources::Secs,
+    comp::tool::{Stats, ToolKind},
     states::utils::AbilityInfo,
     uid::Uid,
 };
@@ -105,12 +101,7 @@ pub struct CustomCombo {
 }
 
 impl MeleeConstructor {
-    pub fn create_melee(
-        self,
-        precision_mult: f32,
-        tool_stats: Stats,
-        ability_info: AbilityInfo,
-    ) -> Melee {
+    pub fn create_melee(self, precision_mult: f32, ability_info: AbilityInfo) -> Melee {
         if self.scaled.is_some() {
             dev_panic!(
                 "Attempted to create a melee attack that had a provided scaled value without \
@@ -128,13 +119,6 @@ impl MeleeConstructor {
             } => {
                 let energy = AttackEffect::new(None, CombatEffect::EnergyReward(energy_regen))
                     .with_requirement(CombatRequirement::AnyDamage);
-                let buff = CombatEffect::Buff(CombatBuff {
-                    kind: BuffKind::Bleeding,
-                    dur_secs: Secs(10.0),
-                    strength: CombatBuffStrength::DamageFraction(0.1),
-                    chance: 0.1,
-                })
-                .adjusted_by_stats(tool_stats);
                 let mut damage = AttackDamage::new(
                     Damage {
                         kind: DamageKind::Slashing,
@@ -142,8 +126,7 @@ impl MeleeConstructor {
                     },
                     Some(GroupTarget::OutOfGroup),
                     instance,
-                )
-                .with_effect(buff);
+                );
 
                 if let Some(damage_effect) = self.damage_effect {
                     damage = damage.with_effect(damage_effect);
@@ -175,13 +158,6 @@ impl MeleeConstructor {
             } => {
                 let energy = AttackEffect::new(None, CombatEffect::EnergyReward(energy_regen))
                     .with_requirement(CombatRequirement::AnyDamage);
-                let buff = CombatEffect::Buff(CombatBuff {
-                    kind: BuffKind::Bleeding,
-                    dur_secs: Secs(5.0),
-                    strength: CombatBuffStrength::DamageFraction(0.05),
-                    chance: 0.1,
-                })
-                .adjusted_by_stats(tool_stats);
                 let mut damage = AttackDamage::new(
                     Damage {
                         kind: DamageKind::Piercing,
@@ -189,8 +165,7 @@ impl MeleeConstructor {
                     },
                     Some(GroupTarget::OutOfGroup),
                     instance,
-                )
-                .with_effect(buff);
+                );
 
                 if let Some(damage_effect) = self.damage_effect {
                     damage = damage.with_effect(damage_effect);
@@ -222,13 +197,6 @@ impl MeleeConstructor {
             } => {
                 let energy = AttackEffect::new(None, CombatEffect::EnergyReward(energy_regen))
                     .with_requirement(CombatRequirement::AnyDamage);
-                let buff = CombatEffect::Buff(CombatBuff {
-                    kind: BuffKind::Burning,
-                    dur_secs: Secs(5.0),
-                    strength: CombatBuffStrength::DamageFraction(0.05),
-                    chance: 0.1,
-                })
-                .adjusted_by_stats(tool_stats);
                 let mut damage = AttackDamage::new(
                     Damage {
                         kind: DamageKind::Energy,
@@ -236,8 +204,7 @@ impl MeleeConstructor {
                     },
                     Some(GroupTarget::OutOfGroup),
                     instance,
-                )
-                .with_effect(buff);
+                );
 
                 if let Some(damage_effect) = self.damage_effect {
                     damage = damage.with_effect(damage_effect);
@@ -305,13 +272,6 @@ impl MeleeConstructor {
                 poise,
                 pull,
             } => {
-                let buff = CombatEffect::Buff(CombatBuff {
-                    kind: BuffKind::Bleeding,
-                    dur_secs: Secs(5.0),
-                    strength: CombatBuffStrength::DamageFraction(0.2),
-                    chance: 0.1,
-                })
-                .adjusted_by_stats(tool_stats);
                 let mut damage = AttackDamage::new(
                     Damage {
                         kind: DamageKind::Piercing,
@@ -319,8 +279,7 @@ impl MeleeConstructor {
                     },
                     Some(GroupTarget::OutOfGroup),
                     instance,
-                )
-                .with_effect(buff);
+                );
 
                 if let Some(damage_effect) = self.damage_effect {
                     damage = damage.with_effect(damage_effect);
