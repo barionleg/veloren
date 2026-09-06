@@ -131,15 +131,13 @@ impl CharacterBehavior for Data {
             StageSection::Recover => {
                 if !self.exhausted {
                     let precision_mult = combat::compute_precision_mult(data.inventory, data.msm);
-                    let tool_stats = get_tool_stats(data, self.static_data.ability_info);
 
                     data.updater.insert(
                         data.entity,
-                        self.static_data.melee_constructor.clone().create_melee(
-                            precision_mult,
-                            tool_stats,
-                            self.static_data.ability_info,
-                        ),
+                        self.static_data
+                            .melee_constructor
+                            .clone()
+                            .create_melee(precision_mult, self.static_data.ability_info),
                     );
 
                     if let CharacterState::LeapMelee(c) = &mut update.character {

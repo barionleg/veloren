@@ -751,8 +751,8 @@ pub fn ability_description<'a>(
         | "common-abilities-axe-capsize" => (
             loc.get_msg(&ability_i18n_key),
             loc.get_attr_ctx(&ability_i18n_key, "desc", &i18n::fluent_args! {
-                "min_combo" => 25,
-                "min_combo_upg" => 40,
+                "min_combo" => 20,
+                "min_combo_upg" => 30,
             }),
         ),
         "common-abilities-hammer-earthshaker"
